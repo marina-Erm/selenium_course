@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
+
 public class MyFirstTest {
 
     private WebDriver driver;
@@ -25,7 +26,7 @@ public class MyFirstTest {
         driver.get("http://www.google.com/");
         driver.findElement(By.name("q")).sendKeys("webdriver");
         driver.findElement(By.name("btnK")).click();
-        wait.until(titleIs("webdriver - \u041F\u043E\u0438\u0441\u043A \u0432 Google"));
+        wait.until(titleIs("webdriver - Поиск в Google"));
     }
 
     @After
