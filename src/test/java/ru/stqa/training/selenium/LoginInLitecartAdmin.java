@@ -13,7 +13,7 @@ public class LoginInLitecartAdmin extends TestBase{
 
 
 
-
+    @Test
     public void login() throws InterruptedException {
         driver.get("http://localhost/litecart/public_html/admin/login.php");
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
