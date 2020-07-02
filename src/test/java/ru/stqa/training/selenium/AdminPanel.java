@@ -2,9 +2,12 @@ package ru.stqa.training.selenium;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static org.junit.Assert.assertTrue;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
@@ -20,183 +23,30 @@ public class AdminPanel extends TestBase {
         driver.findElement(By.tagName("button")).click();
         wait.until(titleIs("My Store"));
 
-        //Проход по пунктам меню
-        driver.findElement(By.xpath("//*[contains(@href,'doc=template')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
+        //Узнаем кол-во пунктов в меню
+        List<WebElement> listMenu = driver.findElements(By.xpath("//*[@id='box-apps-menu']/li"));
 
-        driver.findElement(By.xpath("//*[@id='doc-template']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
+        //проходим циклом по меню, каждый раз обновляем список и кликаем по пункту
+        for (int i = 0; i < listMenu.size(); i++) {
+            List<WebElement> menu = driver.findElements(By.xpath("//*[@id='box-apps-menu']/li"));
+            menu.get(i).click();
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        driver.findElement(By.xpath("//*[@id='doc-logotype']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
+            //проверяем наличие тега
+            assertTrue(isElementPresent(By.tagName("h1")));
+          // wait.until(presenceOfElementLocated(By.tagName("h1")));
 
-        driver.findElement(By.xpath("//*[contains(@href,'doc=catalog')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-catalog']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-product_groups']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-option_groups']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-manufacturers']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-suppliers']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-delivery_statuses']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-sold_out_statuses']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-quantity_units']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-csv']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=countries')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=currencies')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=customers')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-customers']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-csv']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-newsletter']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=geo_zones')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=languages')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-languages']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-storage_encoding']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=jobs')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-jobs']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-customer']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-shipping']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-payment']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-order_total']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-order_success']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-order_action']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=orders')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-orders']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-order_statuses']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=pages')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=monthly_sales')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-monthly_sales']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-most_sold_products']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-most_shopping_customers']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=store_info')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-store_info']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-defaults']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-general']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-listings']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-images']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-checkout']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-advanced']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-security']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=slides')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=tax_classes')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-tax_classes']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-tax_rates']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=search')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-search']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-scan']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-csv']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=users')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[contains(@href,'doc=vqmods')]")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
-        driver.findElement(By.xpath("//*[@id='doc-vqmods']")).click();
-        wait.until(presenceOfElementLocated(By.tagName("h1")));
-
+            //проверяем есть ли подпункты в пункте меню и если да, то поступаем с ними аналогично
+            if (driver.findElements(By.xpath("//ul[@class='docs']//li")).size() > 0) {
+                List<WebElement> listSubparagraph = driver.findElements(By.xpath("//ul[@class='docs']//li"));
+                for (int j = 0; j < listSubparagraph.size(); j++) {
+                    List<WebElement> listSubparagraphMenu = driver.findElements(By.xpath("//ul[@class='docs']//li"));
+                    listSubparagraphMenu.get(j).click();
+                    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                    assertTrue(isElementPresent(By.tagName("h1")));
+                    //  wait.until(presenceOfElementLocated(By.tagName("h1")));
+                }
+            }
+        }
     }
 }

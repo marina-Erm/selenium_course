@@ -35,7 +35,7 @@ public class TestBase {
                 new Thread(() -> { driver.quit(); driver = null; }));
     }
 
-    boolean isElementPresent(WebDriver driver, By locator) {
+    public boolean isElementPresent(By locator) {
         try {
             driver.findElement(locator);
             return true;
