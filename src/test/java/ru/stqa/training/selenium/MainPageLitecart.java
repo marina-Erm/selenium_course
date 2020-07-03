@@ -23,17 +23,16 @@ public class MainPageLitecart extends TestBase {
         List<WebElement> ducks = driver.findElements(By.xpath("//ul[@class='listing-wrapper products']//li"));
         System.out.println("Total ducks on page = " + ducks.size());
 
-        //ищем стикеры new и sale на каждой уточке
+        //тогда просто проверяем наличие класса sticker на каждой уточке
         for (WebElement stickerOnDuck : ducks) {
-            List<WebElement> stickerNew = stickerOnDuck.findElements(By.xpath(".//div[contains(@class,'new')]"));
-            List<WebElement> stickerSale = stickerOnDuck.findElements(By.xpath(".//div[contains(@class,'sale')]"));
+            List<WebElement> sticker = stickerOnDuck.findElements(By.xpath(".//div[contains(@class,'sticker')]"));
 
-            //проверяем сколько и каких стикеров на уточке
-            if (!(stickerNew.size()==1 || stickerSale.size()==1)) {
-                assert (stickerNew.size()!=1 || stickerSale.size()!=1);
+            //проверяем сколько стикеров на уточке
+            if (!(sticker.size()==1)) {
+                assert (sticker.size()!=1 );
                 System.out.println("Duck have 0 or more 1 stickers");
                 }
-            System.out.println("Duck have sticker new - "+stickerNew.size()+".  Duck have sticker sale - "+stickerSale.size());
+            System.out.println("Duck have sticker  - "+sticker.size());
         }
     }
 }
