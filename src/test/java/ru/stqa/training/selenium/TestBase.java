@@ -26,13 +26,22 @@ public class TestBase {
             return;
         }
 
-        driver = new FirefoxDriver();
+        driver = new ChromeDriver();
         //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         tlDriver.set(driver);
         wait = new WebDriverWait(driver, 10);
 
         Runtime.getRuntime().addShutdownHook(
                 new Thread(() -> { driver.quit(); driver = null; }));
+    }
+
+    public void loginInAdmin() {
+        driver.get("http://localhost/litecart/public_html/admin/login.php");
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.findElement(By.name("username")).sendKeys("admin");
+        driver.findElement(By.name("password")).sendKeys("admin");
+        driver.findElement(By.tagName("button")).click();
+        wait.until(titleIs("My Store"));
     }
 
     public boolean isElementPresent(By locator) {
