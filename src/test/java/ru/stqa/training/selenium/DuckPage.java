@@ -155,6 +155,7 @@ public class DuckPage extends TestBase {
         // для Firefox жирность на главной и на странице утки не совпадают,поэтому проверяем, что жирность есть, т.к. не жирный шрифт 400
         //Assert.assertTrue((Integer.valueOf(weightCampaignPriceDuck) > 400) && (Integer.valueOf(weightCampaignPriceOnPage) > 400));
 
+        //проверяем по классам
         Assert.assertTrue(stylePriceDuck.equals(styleRegularPriceDuck));
         Assert.assertTrue(styleCampaignPriceDuck.equals(styleCampaignPriceOnPage));
 
