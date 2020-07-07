@@ -26,7 +26,7 @@ public class TestBase {
             return;
         }
 
-        driver = new ChromeDriver();
+        driver = new FirefoxDriver();
         //driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         tlDriver.set(driver);
         wait = new WebDriverWait(driver, 10);
