@@ -1,14 +1,17 @@
 package ru.stqa.training.selenium;
 
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import sun.awt.windows.WEmbeddedFrame;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertTrue;
@@ -16,13 +19,19 @@ import static org.junit.Assert.assertTrue;
 public class AddNewDuck extends TestBase {
 
     @Test
-    public void addNewDuck(){
+    public void addNewDuck() throws IOException, InterruptedException {
         //зайдем в админку
         loginInAdmin();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        Thread.sleep(1000);
         //перейдем на страницу добавления товара
         driver.findElement(By.xpath("//*[@id='box-apps-menu']/li/a[contains(@href,'app=catalog')]")).click();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        //соберем кол-во товаров
+        WebElement count = driver.findElement(By.xpath("//table[@class='dataTable']//tr[@class='footer']/td"));
+        String totalCount = count.getAttribute("textContent");
+
+        //перейдем к добавлению товара
         driver.findElement(By.xpath("//*[@id='content']/div/a[contains(@href,'edit_product')]")).click();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
@@ -98,16 +107,66 @@ public class AddNewDuck extends TestBase {
             e.printStackTrace();
         }
         //для firefox
-        if (validTo.getCssValue("value")!="2021-07-07") validFrom.sendKeys("2021-07-07");
+        if (validTo.getCssValue("value")!="2021-07-07") validTo.sendKeys("2021-07-07");
 
 
         //уходим на вкладку Information
         driver.findElement(By.xpath("//ul[@class='index']//a[@href='#tab-information']")).click();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        
+
+        WebElement manufacturer = driver.findElement(By.xpath("//div[@id='tab-information']//select[@name='manufacturer_id']"));
+        WebElement acme = manufacturer.findElement(By.xpath(".//option[@value='1']"));
+        new Actions(driver).moveToElement(manufacturer)
+                .click(manufacturer)
+                .moveToElement(acme)
+                .click(acme)
+                .perform();
+
+        driver.findElement(By.xpath("//div[@id='tab-information']//input[@name='keywords']")).sendKeys("Black Duck");
+        driver.findElement(By.xpath("//div[@id='tab-information']//input[@name='short_description[en]']"))
+                .sendKeys("This is new model of duck");
+
+        //заполняем описание Description из файла
+        File fileDescr = new File("src/test/resources/Description_duck.txt");
+        FileReader read = new FileReader(fileDescr);
+        char[] s = new char[250];
+        read.read(s);
+        WebElement descr = driver.findElement(By.xpath("//span[@class='input-wrapper']//div[@class='trumbowyg-editor']"));
+        descr.sendKeys(String.valueOf(s));
+
+        driver.findElement(By.xpath("//div[@id='tab-information']//input[@name='head_title[en]']")).sendKeys("Black Duck");
+        driver.findElement(By.xpath("//div[@id='tab-information']//input[@name='meta_description[en]']")).sendKeys("Black Duck");
 
 
+        //уходим на вкладку Prices
+        driver.findElement(By.xpath("//ul[@class='index']//a[@href='#tab-prices']")).click();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
+        driver.findElement(By.xpath("//div[@id='tab-prices']//input[@name='purchase_price']")).sendKeys("50");
 
+        WebElement priceCode = driver.findElement(By.xpath("//div[@id='tab-prices']//select[@name='purchase_price_currency_code']"));
+        WebElement usdSelect = priceCode.findElement(By.xpath(".//option[@value='USD']"));
+        new Actions(driver).moveToElement(priceCode)
+                .click(priceCode)
+                .moveToElement(usdSelect)
+                .click(usdSelect)
+                .perform();
+
+        WebElement taxUSD = driver.findElement(By.xpath("//div[@id='tab-prices']//input[@name='gross_prices[USD]']"));
+        taxUSD.clear();
+        taxUSD.sendKeys("5");
+
+        //сохраним все изменения
+        driver.findElement(By.xpath("//span[@class='button-set']//button[@name='save']")).click();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        Thread.sleep(200);
+        assertTrue(isElementPresent(By.tagName("h1")));
+
+        //првоерим, что уточка добавилась
+        //соберем обновленное кол-во товаров
+        WebElement countNew = driver.findElement(By.xpath("//table[@class='dataTable']//tr[@class='footer']/td"));
+        String totalCountNew = countNew.getAttribute("textContent");
+
+        Assert.assertFalse(totalCount.equals(totalCountNew));
     }
 }
